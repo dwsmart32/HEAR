@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.env
+runs/
+results/
+inference_results/
+*.wav.tmp
+.DS_Store
+.venv/
+venv/

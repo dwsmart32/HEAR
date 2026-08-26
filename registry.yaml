@@ -1,0 +1,257 @@
+# Model registry for the HEAR evaluation harness.
+#
+# Every entry points at a public Hugging Face model id or an API model name --
+# there are no local paths, so this file works as-is on any machine.
+# Add your own model by copying the closest entry and changing `path`.
+#
+# type: vllm | huggingface | api | external
+
+gemini-2.5-pro:
+  model_name: gemini-2.5-pro
+  provider: google
+  type: api
+
+gemini-3-flash:
+  model_name: gemini-3-flash-preview
+  provider: google
+  type: api
+
+gemini-3-pro:
+  model_name: gemini-3.1-pro-preview
+  provider: google
+  type: api
+  request_timeout_s: 75
+
+gpt-4o-audio:
+  model_name: gpt-4o-audio-preview
+  provider: openai
+  type: api
+  env_key: OPENAI_API_KEY
+
+# Hugging Face
+audio-flamingo3:
+  hf_model_type: audioflamingo3
+  max_tokens: 2048
+  path: nvidia/audio-flamingo-3-hf
+  temperature: 0.7
+  top_p: 0.9
+  type: huggingface
+
+kimi-audio-7b-instruct:
+  audio_temperature: 0.8
+  audio_top_k: 10
+  env: kimi_env
+  hf_model_type: kimi_audio
+  max_tokens: 2048
+  path: moonshotai/Kimi-Audio-7B-Instruct
+  text_temperature: 0.0
+  text_top_k: 5
+  type: huggingface
+
+gemma4-e4b-it:
+  hf_model_type: gemma4
+  max_tokens: 2048
+  path: google/gemma-4-E4B-it
+  temperature: 1.0
+  top_k: 64
+  top_p: 0.95
+  type: huggingface
+
+gemma4-e2b-it:
+  hf_model_type: gemma4
+  max_tokens: 512
+  path: google/gemma-4-E2B-it
+  temperature: 1.0
+  top_k: 64
+  top_p: 0.95
+  type: huggingface
+
+minicpm-o-2_6-8b:
+  env: minicpmo_env
+  hf_model_type: minicpmo
+  max_tokens: 2048
+  path: openbmb/MiniCPM-o-2_6
+  temperature: 0.3
+  type: huggingface
+
+# Hugging Face (vLLM has chunked-audio bugs for 4.5)
+minicpm-o-4_5-9b:
+  env: minicpmo45_env
+  hf_model_type: minicpmo
+  max_tokens: 2048
+  path: openbmb/MiniCPM-o-4_5
+  temperature: 0.3
+  top_p: 0.7
+  type: huggingface
+
+fun-audio-chat-8b:
+  engine_args:
+    enforce_eager: true
+    max_model_len: 4096
+  max_tokens: 2048
+  path: FunAudioLLM/Fun-Audio-Chat-8B
+  temperature: 0.6
+  top_k: 20
+  top_p: 0.95
+  type: vllm
+
+midashenglm-7b:
+  engine_args:
+    max_model_len: 4096
+  max_tokens: 2048
+  path: mispeech/midashenglm-7b
+  temperature: 0.0
+  type: vllm
+
+phi-4-mm-6b:
+  engine_args:
+    enable_lora: true
+    max_lora_rank: 320
+  max_tokens: 2048
+  path: microsoft/Phi-4-multimodal-instruct
+  temperature: 0.0
+  type: vllm
+
+qwen2-audio-7b:
+  engine_args:
+    max_model_len: 8192
+  max_tokens: 2048
+  path: Qwen/Qwen2-Audio-7B-Instruct
+  temperature: 0.7
+  top_k: 20
+  top_p: 0.5
+  type: vllm
+
+qwen2_5_omni-3b:
+  engine_args:
+    max_model_len: 8192
+  max_tokens: 2048
+  path: Qwen/Qwen2.5-Omni-3B
+  temperature: 0.0
+  type: vllm
+
+qwen2_5_omni-7b:
+  engine_args:
+    max_model_len: 8192
+  max_tokens: 2048
+  path: Qwen/Qwen2.5-Omni-7B
+  temperature: 0.0
+  type: vllm
+
+qwen3-omni-instruct-30b:
+  engine_args:
+    max_model_len: 32768
+    max_num_seqs: 64
+  path: Qwen/Qwen3-Omni-30B-A3B-Instruct
+  temperature: 0.6
+  tensor_parallel_size: 1
+  top_k: 20
+  top_p: 0.95
+  max_tokens: 2048
+  type: vllm
+
+qwen3-omni-thinking-30b:
+  engine_args:
+    max_model_len: 32768
+  gpu_memory_utilization: 0.90
+  max_tokens: 16384
+  path: Qwen/Qwen3-Omni-30B-A3B-Thinking
+  temperature: 0.6
+  tensor_parallel_size: 1
+  top_k: 20
+  top_p: 0.95
+  type: vllm
+
+voxtral-mini-3b:
+  engine_args:
+    config_format: mistral
+    enforce_eager: true
+    load_format: mistral
+    tokenizer_mode: mistral
+  max_tokens: 2048
+  path: mistralai/Voxtral-Mini-3B-2507
+  temperature: 0.2
+  top_p: 0.95
+  type: vllm
+
+voxtral-small-24b:
+  engine_args:
+    config_format: mistral
+    enforce_eager: true
+    load_format: mistral
+    tokenizer_mode: mistral
+  max_tokens: 2048
+  path: mistralai/Voxtral-Small-24B-2507
+  temperature: 0.2
+  tensor_parallel_size: 1
+  top_p: 0.95
+  type: vllm
+
+# External
+step-audio-2-mini:
+  disabled: true
+  disabled_reason: >-
+    Needs the Step-Audio inference bridge, which is not bundled. Clone
+    stepfun-ai/Step-Audio2 into external_models/step_audio and provide
+    inference_bridge.py, then remove this flag.
+  command: python inference_bridge.py --model-name Step-Audio-2-mini
+  max_tokens: 8192
+  temperature: 0.1
+  type: external
+  working_dir: external_models/step_audio
+
+step-audio-r1:
+  disabled: true
+  disabled_reason: >-
+    Needs the Step-Audio inference bridge, which is not bundled. Clone
+    stepfun-ai/Step-Audio2 into external_models/step_audio and provide
+    inference_bridge.py, then remove this flag.
+  command: python inference_bridge.py --model-name Step-Audio-R1 --thinking
+  temperature: 0.7
+  top_p: 0.9
+  max_tokens: 16384
+  type: external
+  working_dir: external_models/step_audio
+
+# Decoding-temperature variants of the Qwen2.5-Omni 7B baseline.
+qwen2_5_omni-7b-temp07:
+  engine_args:
+    max_model_len: 8192
+  path: Qwen/Qwen2.5-Omni-7B
+  temperature: 0.7
+  top_p: 0.95
+  type: vllm
+
+qwen2_5_omni-7b-temp10:
+  engine_args:
+    max_model_len: 8192
+  path: Qwen/Qwen2.5-Omni-7B
+  temperature: 1.0
+  top_p: 0.95
+  type: vllm
+
+# temp=1.0 variants for eval comparison
+
+minicpm-o-4_5-9b-thinking:
+  env: minicpmo45_env
+  hf_model_type: minicpmo
+  max_tokens: 4096
+  path: openbmb/MiniCPM-o-4_5
+  temperature: 0.3
+  top_p: 0.7
+  type: huggingface
+  enable_thinking: true
+
+# The paper's own model. Same family as Qwen3-Omni-30B-A3B-Instruct, which the handler
+# resolves from config.json rather than from this path. It emits
+# <reasoning>...</reasoning><answer>{"Answer": "X"}</answer>; the scorer reads the
+# last <answer> block. It was evaluated with Qwen's default system prompt, which is
+# what the handler applies to a non-baseline Qwen3-Omni checkpoint.
+a2r-30b-a3b:
+  path: PleasedPenguin/A2R-30B-A3B
+  type: vllm
+  engine_args:
+    max_model_len: 32768
+  temperature: 0.6
+  top_p: 0.95
+  max_tokens: 4096

@@ -1,0 +1,16 @@
+# Core harness
+datasets>=2.19,<4          # 4.x+ routes Audio decoding through torchcodec
+huggingface_hub>=0.23
+python-dotenv
+pydantic>=2
+soundfile
+librosa
+numpy
+pyyaml
+tqdm
+
+# Backends are optional -- install only what the models you run need:
+#   vLLM models        pip install "vllm>=0.11"
+#   HF-native models   pip install "transformers>=4.57" accelerate torch
+#   Voxtral            pip install "mistral_common[audio]"
+#   API models         pip install openai google-genai
